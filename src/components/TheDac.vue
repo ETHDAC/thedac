@@ -43,7 +43,9 @@
 
 <script>
 import w3h from '../utils/web3helpers'
-import json from '../../build/contracts/DAC.json'
+import DAC from '../../build/contracts/DAC.json'
+import Project from '../../build/contracts/Project.json'
+import TitleToken from '../../build/contracts/TitleToken.json'
 
 export default {
   name: 'TheDac',
@@ -56,22 +58,29 @@ export default {
     }
   },
   mounted() {
-    // this.init()
+    setTimeout(() => this.init(), 500)
   },
   methods: {
     async init() {
       const dac = await w3h.getContract(
-        json,
-        '0xb86903eeebeb0cc37d3b5c458d298e2bbcc13e3e'
+        DAC,
+        '0xffa79add01a7c0688196a11757a5a7d2df6c515d'
       )
       const accounts = await w3h.getAccounts()
-
-      const tx = await dac.createProject('wicked bad', { from: accounts[0] })
-      console.log(tx)
-
+      
       const projects = await dac.getProjects.call()
+      
+      const project = await w3h.getContract(
+        Project,
+        projects[2]
+      )
+      
+      const address = await dac.token.call()
+      const token = await w3h.getContract(
+        TitleToken,
+        address
+      )
 
-      console.log(projects)
     }
   }
 }

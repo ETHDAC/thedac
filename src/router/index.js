@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import TheDac from '@/components/TheDac'
+import TheUser from '@/components/TheUser'
 
 Vue.use(Router)
 
@@ -17,6 +18,11 @@ export default new Router({
       path: '/dac',
       name: 'TheDac',
       component: TheDac
+    },
+    {
+      path: '/user',
+      name: 'TheUser',
+      component: TheUser
     }
   ]
 })

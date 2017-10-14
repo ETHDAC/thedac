@@ -20,7 +20,7 @@ contract TitleToken is Ownable {
   //TitleToken Stuff
   uint256 public totalSupply;
   uint256 public titleCount;
-  mapping(uint256 => Title) titleData;
+  mapping(uint256 => Title) public titleData;
   
   struct Title {
     uint256 balance;

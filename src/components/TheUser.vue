@@ -1,51 +1,66 @@
 <template>
   <section class="container">
-    <md-card class="space">
-      <md-card-header>
-        <div class="md-title">Your Account:</div>
-        <div class="md-subhead">{{ account }}</div>
-      </md-card-header>
+    <div class="flex">
+      <md-card class="space">
+        <md-card-header>
+          <div class="md-title">Your Account:</div>
+          <div class="md-subhead">{{ account }}</div>
+          <p><strong>Balance:</strong> {{ balance }} ETH</p>
+        </md-card-header>
 
-      <!-- <md-card-actions>
-        <md-button>Action</md-button>
-        <md-button>Action</md-button>
-      </md-card-actions> -->
+        <!-- <md-card-actions>
+          <md-button>Action</md-button>
+          <md-button>Action</md-button>
+        </md-card-actions> -->
 
-      <md-card-content>
-        Make Donations, track donations, etc...
-      </md-card-content>
-    </md-card>
+        <md-card-content>
+          Make donations &amp; track your donations.
+        </md-card-content>
+      </md-card>
 
-    <form class="space" novalidate @submit.stop.prevent="() => {}">
-      <h2 class="md-display-1">Donate</h2>
-      <md-input-container>
-        <label>Pick a Project</label>
-        <md-input v-model="name"></md-input>
-      </md-input-container>
+      <form class="space" novalidate @submit.stop.prevent="() => {}">
+        <h2 class="md-display-1">Donate</h2>
 
-      <md-input-container>
-        <label>Amount</label>
-        <md-input v-model="name"></md-input>
-      </md-input-container>
+        <md-input-container>
+          <label>Amount</label>
+          <md-input type="number" v-model="donation"></md-input>
+        </md-input-container>
 
-      <md-button type="submit" class="md-raised md-primary">Donate</md-button>
+        <md-button type="submit" class="md-raised md-primary">Donate</md-button>
 
-      <p><strong>Note:</strong> After submit a receipt is generated that gives you the information you need to track transactions. The app stores this receipt.</p>
+        <p><strong>Note:</strong> After submit a receipt is generated that gives you the information you need to track transactions. The app stores this receipt.</p>
 
-    </form>
+      </form>
+    </div>
 
-    <form class="space" novalidate @submit.stop.prevent="() => {}">
-      <h2 class="md-display-1">Track</h2>
-      <md-input-container>
-        <label>Hash or something from receipt that pulls up donation tracking</label>
-        <md-input v-model="name"></md-input>
-      </md-input-container>
+    <h2 class="md-display-1">Track Your Titles</h2>
+    <p>Donations get converted into <strong>SAI</strong>. Your donation then mints a <strong>TitleToken</strong>, this way you are able to see exactly where your money is going and where it has been. A <strong>TitleToken</strong> represent your entire donation in <strong>SAI</strong>.</p>
 
-      <md-button type="submit" class="md-raised md-primary">Look Up</md-button>
+    <h3>Click on a title to see a visual tree of your donation:</h3>
 
-      <p><strong>Note:</strong> After submit the app reveals a table of titles and a visualization of tokens.</p>
+    <md-table class="space" @select="onSelect">
+      <md-table-header>
+        <md-table-row>
+          <md-table-head>Title</md-table-head>
+          <md-table-head class="align-right">Donation (ETH)</md-table-head>
+          <md-table-head class="align-right">SAI</md-table-head>
+        </md-table-row>
+      </md-table-header>
 
-    </form>
+      <md-table-body>
+        <md-table-row md-selection :md-item="{title: 1}">
+          <md-table-cell>1</md-table-cell>
+          <md-table-cell class="align-right">10</md-table-cell>
+          <md-table-cell class="align-right">1,000</md-table-cell>
+        </md-table-row>
+        <md-table-row md-selection :md-item="{title: 2}">
+          <md-table-cell>2</md-table-cell>
+          <md-table-cell class="align-right">1</md-table-cell>
+          <md-table-cell class="align-right">250</md-table-cell>
+        </md-table-row>
+      </md-table-body>
+    </md-table>
+
   </section>
 </template>
 
@@ -54,20 +69,43 @@ import w3h from '../utils/web3helpers'
 
 export default {
   name: 'TheDac',
-  data () {
+  data() {
     return {
       account: '',
-      name: '',
-      title: 'The Dac'
+      balance: 0,
+      donation: 0,
+      title: ''
     }
   },
-  mounted () {
-    w3h.getAccounts().then((data) => {
+  mounted() {
+    w3h.getAccounts().then(data => {
       this.account = data[0]
+      w3h.getBalance(this.account).then((result) => {
+        this.balance = result
+      })
     })
+  },
+  methods: {
+    onSelect(rows) {
+      rows.forEach((row) => {
+        console.log(`use ${row.title} to create the D3 graph`)
+      })
+    }
   }
 }
 </script>
 
 <style scoped>
+  .flex > div {
+    width: 50%;
+  }
+
+  .flex > form {
+    width: calc(50% - 20px);
+    margin-left: 20px;
+  }
+
+  .md-card .md-subhead {
+    word-wrap: break-word;
+  }
 </style>

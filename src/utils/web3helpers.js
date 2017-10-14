@@ -92,6 +92,19 @@ const getAccounts = (web3 = window.web3) => {
   })
 }
 
+const getBalance = (account, callback, web3 = window.web3) => {
+  return new Promise((resolve, reject) => {
+    web3.eth.getBalance(account, (error, result) => {
+      if (!error) {
+        const ETH = web3.fromWei(result, 'ether')
+        resolve(ETH.toNumber())
+      } else {
+        reject(new Error('could not get balance...'))
+      }
+    })
+  })
+}
+
 /**
  * Get Contract
  */
@@ -119,6 +132,7 @@ const deployContract = (json, from, gas) => {
 export default {
   deployContract,
   getAccounts,
+  getBalance,
   getContract,
   getNetwork,
   getWeb3,

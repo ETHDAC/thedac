@@ -5,3 +5,15 @@
 .space {
   margin-bottom: 40px;
 }
+
+.flex {
+  display: flex;
+}
+
+.align-right {
+  text-align: right!important;
+}
+
+.click-table tbody tr {
+  cursor: pointer;
+}

@@ -234,6 +234,7 @@
       },
       "links": {},
 <<<<<<< HEAD
+<<<<<<< HEAD
       "address": "0xc55bfd8804e312a88f9862759bc5ef62ecb82a1c",
       "updated_at": 1508015361542
     },
@@ -272,4 +273,12 @@
   "schema_version": "0.0.5",
   "updated_at": 1508015186943
 >>>>>>> DAC view front end + make titleData public
+=======
+      "address": "0x61a5460d53c5fc9143259234ccb314ee9c3e6126",
+      "updated_at": 1508018422176
+    }
+  },
+  "schema_version": "0.0.5",
+  "updated_at": 1508018422176
+>>>>>>> get total titles and title data for the dac view
 }

@@ -93,11 +93,15 @@
     "1508015119422": {
       "events": {},
       "links": {},
-      "address": "0x8356148127a22fed5d8760952b895f546a06405b",
-      "updated_at": 1508015186954
+      "address": "0xfc4fbf454f1a268b2b38431890fa534b5c95e08c",
+      "updated_at": 1508018422184
     }
   },
   "schema_version": "0.0.5",
+<<<<<<< HEAD
   "updated_at": 1508015186954
 >>>>>>> DAC view front end + make titleData public
+=======
+  "updated_at": 1508018422184
+>>>>>>> get total titles and title data for the dac view
 }

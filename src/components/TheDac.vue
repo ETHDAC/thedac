@@ -92,7 +92,15 @@ export default {
       this.balance = window.web3.fromWei(balance, 'ether').toNumber()
 
       // Get Titles
-      // const titles = await titleTokenContract
+
+      const titles = []
+      const totalTitles = (await titleTokenContract.titleCount()).toNumber()
+
+      for (let i = 0; i < totalTitles - 1; i++) {
+        titles[i] = await titleTokenContract.titleData(i)
+      }
+
+      console.log(totalTitles, titles)
     }
   }
 }

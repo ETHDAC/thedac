@@ -13,8 +13,18 @@ contract DAC is Ownable {
   TitleToken public token;
   address[] public projects;
   
-  uint256 public goal;
-  uint256 public balance;
+  uint256 public goal = 1000 ether;
+  uint256 public balance = 500 ether;
+  
+  function DAC() {
+    createProject('books for good');
+    createProject('medical beds for all');
+    createProject('end poverty');
+    createProject('feed everyone');
+    createProject('replant all trees ever');
+    
+    token = new TitleToken();
+  }
   
   function () payable {
     
@@ -23,16 +33,12 @@ contract DAC is Ownable {
     **************************************/
     
     //some SAI amount
-    balance += 1000000;
-    token.mint(1000000, msg.sender);
+    balance += msg.value;
+    token.mint(msg.value, msg.sender);
   }
   
   function transfer(address _to, uint256 _title, uint256 _amount) onlyOwner {
     token.transfer(_to, _title, _amount);
-  }
-  
-  function createToken() {
-    token = new TitleToken();
   }
   
   function createProject(bytes32 _name) {
@@ -40,8 +46,6 @@ contract DAC is Ownable {
   }
   
   function getProjects() returns (address[]) { return projects; }
-  
-  
   
 }
 

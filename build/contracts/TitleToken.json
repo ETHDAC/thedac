@@ -351,7 +351,11 @@
       "address": "0x9661ff67dbdc33a97c3b12a8200bcc0e075d22d3",
       "updated_at": 1508009643433
     },
+<<<<<<< HEAD
     "1508012551444": {
+=======
+    "1508013049097": {
+>>>>>>> 7109d1d7f085e9e4d3b61c3caced470ab9e82993
       "events": {
         "0xdaf8717245aa2a4068ca038c602db246a55945ff23cabf37cc7ae8f6447550de": {
           "anonymous": false,
@@ -421,10 +425,19 @@
         }
       },
       "links": {},
+<<<<<<< HEAD
       "address": "0xe4a31b81110bf2f5a356fdd56cf1598d0106d552",
       "updated_at": 1508012754277
     }
   },
   "schema_version": "0.0.5",
   "updated_at": 1508012754277
+=======
+      "address": "0xf8e6726f06a9e35948ae8a842c8ba0bdd9aca419",
+      "updated_at": 1508013138760
+    }
+  },
+  "schema_version": "0.0.5",
+  "updated_at": 1508013138760
+>>>>>>> 7109d1d7f085e9e4d3b61c3caced470ab9e82993
 }

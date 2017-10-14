@@ -4,6 +4,7 @@
 
 const DAC = artifacts.require("./DAC.sol");
 const TitleToken = artifacts.require("./TitleToken.sol");
+const Project = artifacts.require("./Project.sol");
 
 /**************************************
 * Helpers
@@ -38,8 +39,7 @@ contract('DAC', function(accounts) {
     
   });
   
-  it('should create token', async function() {
-    const tx = await dac.createToken();
+  it('should have token', async function() {
     const address = await dac.token.call();
     token = await TitleToken.at(address);
     
@@ -56,7 +56,7 @@ contract('DAC', function(accounts) {
     const tx = await dac.createProject('test');
     const projects = await dac.getProjects.call();
     
-    assert(projects.length === 1, 'wrong amount of projects');
+    assert(projects.length === 6, 'wrong amount of projects');
   });
   
   it('rand1 donates and DAC mints and transfers', async function() {
@@ -72,10 +72,19 @@ contract('DAC', function(accounts) {
   it('Portion of title sent to project', async function() {
     const projects = await dac.getProjects.call();
     const tx = await dac.transfer(projects[0], 0, mill / 2, { from: owner });
-    
+      
     await timeout(500);
     
     assert(transfers.length === 1, 'event should be listened for...');
+  });
+  
+  it('getProjectName', async function() {
+    const projects = await dac.getProjects.call();
+    
+    const project = await Project.at(projects[2]);
+    const name = await project.name.call();
+    
+    assert(name !== undefined, 'project has name');
   });
   
 });

@@ -70,6 +70,8 @@ export default {
       
       const projects = await dac.getProjects.call()
       
+      console.log(projects);
+      
       const project = await w3h.getContract(
         Project,
         projects[2]
@@ -80,6 +82,11 @@ export default {
         TitleToken,
         address
       )
+      
+      
+      console.log(dac);
+      console.log(token);
+      console.log(project);
 
     }
   }

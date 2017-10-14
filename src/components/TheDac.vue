@@ -15,7 +15,7 @@
     <h2>Titles</h2>
     <p>The DAC issues titles that are backed by certain amounts of SAI. This table shows that:</p>
 
-    <md-table class="space" @select="onSelect">
+    <md-table class="space">
       <md-table-header>
         <md-table-row>
           <md-table-head>Title</md-table-head>
@@ -25,12 +25,12 @@
       </md-table-header>
 
       <md-table-body>
-        <md-table-row md-selection :md-item="{title: 1}">
+        <md-table-row>
           <md-table-cell>1</md-table-cell>
           <md-table-cell class="align-right">10</md-table-cell>
           <md-table-cell class="align-right">1,000</md-table-cell>
         </md-table-row>
-        <md-table-row md-selection :md-item="{title: 2}">
+        <md-table-row>
           <md-table-cell>2</md-table-cell>
           <md-table-cell class="align-right">1</md-table-cell>
           <md-table-cell class="align-right">250</md-table-cell>

@@ -70,6 +70,9 @@ import DAC from '../../build/contracts/DAC.json'
 import Project from '../../build/contracts/Project.json'
 import TitleToken from '../../build/contracts/TitleToken.json'
 
+
+let dac, accounts, token;
+
 export default {
   name: 'TheDac',
   
@@ -83,8 +86,7 @@ export default {
       amount: 0, // The amount of SAI raised
       targetAmount: 0, // The amount of SAI we are trying to raise
       name: '',
-      title: 'The Dac'
-      
+      title: 'The Dac',
     }
   },
   mounted() {
@@ -98,13 +100,34 @@ export default {
     },
     
     async donate() {
-      console.log(w3h.toWei(this.donation));
+      const wei = w3h.toWei(this.donation);
+      const tx = await dac.sendTransaction({
+        from: accounts[0],
+        value: wei
+      });
+    },
+    
+    async refreshTitles() {
+      
+      const total = (await token.titleCount.call()).toNumber();
+      const data = [];
+      
+      console.log(total);
+      
+      for (let i = 0; i < total; i++) {
+      
+        console.log(i);
+        data.push(await token.titleData.call(i));
+      }
+      console.log(data);
+      
     },
     
     async init() {
     
-      const dac = await w3h.getContract(DAC)
-      const accounts = await w3h.getAccounts()
+      dac = await w3h.getContract(DAC);
+      
+      accounts = await w3h.getAccounts()
       
       const projects = await dac.getProjects.call()
       
@@ -115,8 +138,9 @@ export default {
         projects[2]
       )
       
-      const address = await dac.token.call()
-      const token = await w3h.getContract(
+      const address = await dac.token.call();
+      
+      token = await w3h.getContract(
         TitleToken,
         address
       )
@@ -125,6 +149,9 @@ export default {
       console.log(dac);
       console.log(token);
       console.log(project);
+      
+      
+      this.refreshTitles();
 
     }
   }

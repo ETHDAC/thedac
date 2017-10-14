@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
+import Home from '@/components/Home'
 import TheDac from '@/components/TheDac'
 import TheUser from '@/components/TheUser'
+import TheTitleHolder from '@/components/TheTitleHolder'
 
 Vue.use(Router)
 
@@ -11,8 +12,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Hello',
-      component: HelloWorld
+      name: 'Home',
+      component: Home
     },
     {
       path: '/dac',
@@ -23,6 +24,11 @@ export default new Router({
       path: '/user',
       name: 'TheUser',
       component: TheUser
+    },
+    {
+      path: '/title-holder',
+      name: 'TheTitleHolder',
+      component: TheTitleHolder
     }
   ]
 })

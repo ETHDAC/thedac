@@ -2,69 +2,77 @@
   <section class="container">
     <md-card class="space">
       <md-card-header>
-        <div class="md-title">Your Account:</div>
-        <div class="md-subhead">{{ account }}</div>
+        <h1 class="md-title">Fundraiser:</h1>
+        <div class="md-subhead">We are trying to raise {{ targetAmount }} SAI</div>
       </md-card-header>
 
-      <!-- <md-card-actions>
-        <md-button>Action</md-button>
-        <md-button>Action</md-button>
-      </md-card-actions> -->
-
       <md-card-content>
-        Make Donations, track donations, etc...
+        <h2>{{ amount }} / {{ targetAmount }}</h2>
+        <md-progress :md-progress="0"></md-progress>
       </md-card-content>
     </md-card>
 
-    <form class="space" novalidate @submit.stop.prevent="() => {}">
-      <h2 class="md-display-1">Donate</h2>
-      <md-input-container>
-        <label>Pick a Project</label>
-        <md-input v-model="name"></md-input>
-      </md-input-container>
+    <h2>Titles</h2>
+    <p>The DAC issues titles that are backed by certain amounts of SAI. This table shows that:</p>
 
-      <md-input-container>
-        <label>Amount</label>
-        <md-input v-model="name"></md-input>
-      </md-input-container>
+    <md-table class="space" @select="onSelect">
+      <md-table-header>
+        <md-table-row>
+          <md-table-head>Title</md-table-head>
+          <md-table-head class="align-right">Donation (ETH)</md-table-head>
+          <md-table-head class="align-right">SAI</md-table-head>
+        </md-table-row>
+      </md-table-header>
 
-      <md-button type="submit" class="md-raised md-primary">Donate</md-button>
+      <md-table-body>
+        <md-table-row md-selection :md-item="{title: 1}">
+          <md-table-cell>1</md-table-cell>
+          <md-table-cell class="align-right">10</md-table-cell>
+          <md-table-cell class="align-right">1,000</md-table-cell>
+        </md-table-row>
+        <md-table-row md-selection :md-item="{title: 2}">
+          <md-table-cell>2</md-table-cell>
+          <md-table-cell class="align-right">1</md-table-cell>
+          <md-table-cell class="align-right">250</md-table-cell>
+        </md-table-row>
+      </md-table-body>
+    </md-table>
 
-      <p><strong>Note:</strong> After submit a receipt is generated that gives you the information you need to track transactions. The app stores this receipt.</p>
-
-    </form>
-
-    <form class="space" novalidate @submit.stop.prevent="() => {}">
-      <h2 class="md-display-1">Track</h2>
-      <md-input-container>
-        <label>Hash or something from receipt that pulls up donation tracking</label>
-        <md-input v-model="name"></md-input>
-      </md-input-container>
-
-      <md-button type="submit" class="md-raised md-primary">Look Up</md-button>
-
-      <p><strong>Note:</strong> After submit the app reveals a table of titles and a visualization of tokens.</p>
-
-    </form>
   </section>
 </template>
 
 <script>
 import w3h from '../utils/web3helpers'
+import json from '../../build/contracts/DAC.json'
 
 export default {
   name: 'TheDac',
-  data () {
+  data() {
     return {
-      account: '',
+      amount: 0, // The amount of SAI raised
+      targetAmount: 0, // The amount of SAI we are trying to raise
       name: '',
       title: 'The Dac'
     }
   },
-  mounted () {
-    w3h.getAccounts().then((data) => {
-      this.account = data[0]
-    })
+  mounted() {
+    // this.init()
+  },
+  methods: {
+    async init() {
+      const dac = await w3h.getContract(
+        json,
+        '0xb86903eeebeb0cc37d3b5c458d298e2bbcc13e3e'
+      )
+      const accounts = await w3h.getAccounts()
+
+      const tx = await dac.createProject('wicked bad', { from: accounts[0] })
+      console.log(tx)
+
+      const projects = await dac.getProjects.call()
+
+      console.log(projects)
+    }
   }
 }
 </script>

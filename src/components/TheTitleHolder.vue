@@ -54,15 +54,15 @@ import w3h from '../utils/web3helpers'
 
 export default {
   name: 'TheDac',
-  data () {
+  data() {
     return {
       account: '',
       name: '',
       title: 'The Dac'
     }
   },
-  mounted () {
-    w3h.getAccounts().then((data) => {
+  mounted() {
+    w3h.getAccounts().then(data => {
       this.account = data[0]
     })
   }

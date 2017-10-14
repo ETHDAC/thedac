@@ -48,16 +48,16 @@ contract TitleToken is Ownable {
     //check it's all good to transfer
     require(titleData[_title].active);
     require(_amount < titleData[_title].balance);
-    address owner = titleData[_title].owner;
-    require(msg.sender == owner);
+    address titleOwner = titleData[_title].owner;
+    require(msg.sender == titleOwner || msg.sender == owner);
     
     //calc title split
     uint256 remainder = titleData[_title].balance;
     uint256 a = allocate(_amount, _to);
-    uint256 b = allocate(remainder, owner);
+    uint256 b = allocate(remainder, titleOwner);
     
     //transfer titles
-    Transfer(_title, a, b, _to, owner);
+    Transfer(_title, a, b, _to, titleOwner);
     
     //invalidate this title
     titleData[_title].active = false;

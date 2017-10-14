@@ -3,12 +3,12 @@
     <md-card class="space">
       <md-card-header>
         <h1 class="md-title">Fundraiser:</h1>
-        <div class="md-subhead">We are trying to raise {{ targetAmount }} SAI</div>
+        <div class="md-subhead">We are trying to raise {{ goal }} SAI</div>
       </md-card-header>
 
       <md-card-content>
-        <h2>{{ amount }} / {{ targetAmount }}</h2>
-        <md-progress :md-progress="0"></md-progress>
+        <h2>{{ balance }} / {{ goal }}</h2>
+        <md-progress :md-progress="(balance/goal) * 100"></md-progress>
       </md-card-content>
     </md-card>
 
@@ -44,15 +44,16 @@
 <script>
 import w3h from '../utils/web3helpers'
 import DAC from '../../build/contracts/DAC.json'
-import Project from '../../build/contracts/Project.json'
+// import Project from '../../build/contracts/Project.json'
 import TitleToken from '../../build/contracts/TitleToken.json'
+import { DAC_ADDRESS } from '../constants'
 
 export default {
   name: 'TheDac',
   data() {
     return {
-      amount: 0, // The amount of SAI raised
-      targetAmount: 0, // The amount of SAI we are trying to raise
+      balance: 0, // The amount of SAI raised
+      goal: 0, // The amount of SAI we are trying to raise
       name: '',
       title: 'The Dac'
     }
@@ -62,29 +63,36 @@ export default {
   },
   methods: {
     async init() {
-      const dac = await w3h.getContract(DAC)
-      const accounts = await w3h.getAccounts()
-      
-      const projects = await dac.getProjects.call()
-      
-      console.log(projects);
-      
-      const project = await w3h.getContract(
-        Project,
-        projects[2]
+      const dac = await w3h.getContract(
+        DAC,
+        DAC_ADDRESS
       )
-      
-      const address = await dac.token.call()
-      const token = await w3h.getContract(
-        TitleToken,
-        address
-      )
-      
-      
-      console.log(dac);
-      console.log(token);
-      console.log(project);
+      // const accounts = await w3h.getAccounts()
 
+      // const projects = await dac.getProjects.call()
+
+      // console.log(projects)
+
+      // const project = await w3h.getContract(Project, projects[2])
+
+      const address = await dac.token.call()
+      const titleTokenContract = await w3h.getContract(TitleToken, address)
+
+      // console.log(accounts)
+      console.log('dac', dac)
+      console.log('titleTokenContract', titleTokenContract)
+      // console.log(project)
+
+      // Get Target Amount (how much we want)
+      const goal = await dac.goal()
+      this.goal = window.web3.fromWei(goal, 'ether').toNumber()
+
+      // Get Balance Amount (how much we have)
+      const balance = await dac.balance()
+      this.balance = window.web3.fromWei(balance, 'ether').toNumber()
+
+      // Get Titles
+      // const titles = await titleTokenContract
     }
   }
 }

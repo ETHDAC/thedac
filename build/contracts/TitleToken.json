@@ -377,7 +377,11 @@
       "address": "0x4048e0430661015c3251c0102f527916ddf8d69d",
       "updated_at": 1508014613754
     },
+<<<<<<< HEAD
     "1508015025680": {
+=======
+    "1508015119422": {
+>>>>>>> DAC view front end + make titleData public
       "events": {
         "0xdaf8717245aa2a4068ca038c602db246a55945ff23cabf37cc7ae8f6447550de": {
           "anonymous": false,
@@ -447,6 +451,7 @@
         }
       },
       "links": {},
+<<<<<<< HEAD
       "address": "0x77be244c3f094a7b69b49630749e41889a4edd88",
       "updated_at": 1508015361547
     },
@@ -526,4 +531,12 @@
   },
   "schema_version": "0.0.5",
   "updated_at": 1508019305628
+=======
+      "address": "0x74fe496f4814d46df25bae2ed3be494901e5f47d",
+      "updated_at": 1508015186947
+    }
+  },
+  "schema_version": "0.0.5",
+  "updated_at": 1508015186947
+>>>>>>> DAC view front end + make titleData public
 }

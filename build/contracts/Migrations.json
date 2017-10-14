@@ -73,6 +73,7 @@
       "address": "0x55af527ea06c21411da24d4059856cfd1b694f42",
       "updated_at": 1508014613760
     },
+<<<<<<< HEAD
     "1508015025680": {
       "events": {},
       "links": {},
@@ -88,4 +89,15 @@
   },
   "schema_version": "0.0.5",
   "updated_at": 1508019305637
+=======
+    "1508015119422": {
+      "events": {},
+      "links": {},
+      "address": "0x8356148127a22fed5d8760952b895f546a06405b",
+      "updated_at": 1508015186954
+    }
+  },
+  "schema_version": "0.0.5",
+  "updated_at": 1508015186954
+>>>>>>> DAC view front end + make titleData public
 }

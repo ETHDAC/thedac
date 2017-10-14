@@ -1,28 +1,24 @@
 <template>
-  <div>
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
+  <section class="container">
+    <p><strong>The DAC</strong> tries to raise a certain amount of <strong>SAI</strong> to fund a variety of projects and then allows donors to track their donations all the way to the boots on the ground who ultimately use the funds. How does it do it?</p>
+
     <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-      <br>
-      <li><a href="http://vuejs-templates.github.io/webpack/" target="_blank">Docs for This Template</a></li>
+      <li>Donations are done with <strong>ETH</strong> and converted to <strong>SAI</strong> at the moment of donation</li>
+      <li>All SAI is held in a reserve account</li>
+      <li>A <strong>Trackable Token</strong> called a <strong>TitleToken</strong> is minted to represent each donation</li>
+      <li><strong>TitleTokens</strong> are transferred down the supply chain all the way to boots on the ground</li>
+      <li>At any point the <strong>TitleTokens</strong> can be traded for <strong>SAI</strong> from the reserve account</li>
     </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-    </ul>
-  </div>
+
+    <router-link tag="md-button" to="/dac" class="md-raised md-primary">See the DAC</router-link>
+    <router-link tag="md-button" to="/user" class="md-raised md-primary">Donate</router-link>
+
+  </section>
 </template>
 
 <script>
 export default {
-  name: 'HelloWorld',
+  name: 'Home',
   data () {
     return {
       msg: 'Welcome to Your Vue.js App'

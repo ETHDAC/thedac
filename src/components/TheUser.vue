@@ -26,7 +26,7 @@
           <md-input type="number" v-model="donation"></md-input>
         </md-input-container>
 
-        <md-button type="submit" class="md-raised md-primary">Donate</md-button>
+        <md-button type="submit" class="md-raised md-primary" @click="donate">Donate</md-button>
 
         <p><strong>Note:</strong> After submit a receipt is generated that gives you the information you need to track transactions. The app stores this receipt.</p>
 
@@ -66,30 +66,66 @@
 
 <script>
 import w3h from '../utils/web3helpers'
+import DAC from '../../build/contracts/DAC.json'
+import Project from '../../build/contracts/Project.json'
+import TitleToken from '../../build/contracts/TitleToken.json'
 
 export default {
   name: 'TheDac',
+  
   data() {
     return {
       account: '',
       balance: 0,
       donation: 0,
-      title: ''
+      title: '',
+      
+      amount: 0, // The amount of SAI raised
+      targetAmount: 0, // The amount of SAI we are trying to raise
+      name: '',
+      title: 'The Dac'
+      
     }
   },
   mounted() {
-    w3h.getAccounts().then(data => {
-      this.account = data[0]
-      w3h.getBalance(this.account).then((result) => {
-        this.balance = result
-      })
-    })
+    setTimeout(() => this.init(), 1000)
   },
   methods: {
     onSelect(rows) {
       rows.forEach((row) => {
         console.log(`use ${row.title} to create the D3 graph`)
       })
+    },
+    
+    async donate() {
+      console.log(w3h.toWei(this.donation));
+    },
+    
+    async init() {
+    
+      const dac = await w3h.getContract(DAC)
+      const accounts = await w3h.getAccounts()
+      
+      const projects = await dac.getProjects.call()
+      
+      console.log(projects);
+      
+      const project = await w3h.getContract(
+        Project,
+        projects[2]
+      )
+      
+      const address = await dac.token.call()
+      const token = await w3h.getContract(
+        TitleToken,
+        address
+      )
+      
+      
+      console.log(dac);
+      console.log(token);
+      console.log(project);
+
     }
   }
 }

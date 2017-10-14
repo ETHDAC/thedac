@@ -207,8 +207,56 @@
       "links": {},
       "address": "0xef064998e729a1ce9df80d5e1c46f584d3134b21",
       "updated_at": 1508014613758
+    },
+    "1508015025680": {
+      "events": {
+        "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "previousOwner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "newOwner",
+              "type": "address"
+            }
+          ],
+          "name": "OwnershipTransferred",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0xc55bfd8804e312a88f9862759bc5ef62ecb82a1c",
+      "updated_at": 1508015361542
+    },
+    "1508016621596": {
+      "events": {
+        "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "previousOwner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "newOwner",
+              "type": "address"
+            }
+          ],
+          "name": "OwnershipTransferred",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0xf938ae067b2c0a47d4740938f418bd61576fccc8",
+      "updated_at": 1508016672810
     }
   },
   "schema_version": "0.0.5",
-  "updated_at": 1508014613758
+  "updated_at": 1508016672810
 }

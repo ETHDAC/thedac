@@ -126,10 +126,37 @@ const deployContract = (json, from, gas) => {
   })
 }
 
+/**************************************
+* Helpers
+**************************************/
+const roundTo = (num, dec) => {
+  const factor = Math.pow(10, dec);
+  return Math.round(num * factor) / factor;
+};
+
+const promisify = (inner) => new Promise((resolve, reject) =>
+  inner((err, res) => {
+    if (err) { reject(err) }
+    resolve(res);
+  })
+);
+const getBal = (account, at) => promisify((cb) => web3.eth.getBalance(account, at, cb));
+const timeout = ms => new Promise(res => setTimeout(res, ms));
+const toEth = (wei) => window.web3.fromWei(wei, 'ether').toNumber();
+const toWei = (eth) => window.web3.toWei(eth, 'ether');
+const toUSD = (eth) => new Promise((resolve, reject) =>
+  fetch('https://api.coinmarketcap.com/v1/ticker/ethereum/?convert=USD').then((res) =>
+    res.json()).then((res) => resolve(roundTo(parseFloat(eth * res[0].price_usd), 2))));
+
 /**
  * Exports
  */
 export default {
+  getBal,
+  timeout,
+  toEth,
+  toWei,
+  toUSD,
   deployContract,
   getAccounts,
   getBalance,

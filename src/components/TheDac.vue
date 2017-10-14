@@ -62,10 +62,7 @@ export default {
   },
   methods: {
     async init() {
-      const dac = await w3h.getContract(
-        DAC,
-        '0xffa79add01a7c0688196a11757a5a7d2df6c515d'
-      )
+      const dac = await w3h.getContract(DAC)
       const accounts = await w3h.getAccounts()
       
       const projects = await dac.getProjects.call()

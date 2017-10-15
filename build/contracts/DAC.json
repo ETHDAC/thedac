@@ -231,8 +231,32 @@
       "links": {},
       "address": "0xb1f3ce54b153857d9bd0f1e3a4cf53bc9397bc1d",
       "updated_at": 1508021434440
+    },
+    "1508016621596": {
+      "events": {
+        "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "previousOwner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "newOwner",
+              "type": "address"
+            }
+          ],
+          "name": "OwnershipTransferred",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0x59189ea9ed92e833f1e87b1e8b04d2d91fd1a3a8",
+      "updated_at": 1508030318063
     }
   },
   "schema_version": "0.0.5",
-  "updated_at": 1508021434440
+  "updated_at": 1508030318063
 }

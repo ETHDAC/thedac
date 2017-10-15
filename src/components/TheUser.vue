@@ -27,6 +27,8 @@
         </md-input-container>
 
         <md-button type="submit" class="md-raised md-primary" @click="donate">Donate</md-button>
+        
+        <md-button type="submit" class="md-raised md-primary" @click="transfer">TEST TRANSFER</md-button>
 
         <p><strong>Note:</strong> After submit a receipt is generated that gives you the information you need to track transactions. The app stores this receipt.</p>
 
@@ -38,28 +40,7 @@
 
     <h3>Click on a title to see a visual tree of your donation:</h3>
 
-    <md-table class="space" @select="onSelect">
-      <md-table-header>
-        <md-table-row>
-          <md-table-head>Title</md-table-head>
-          <md-table-head class="align-right">Donation (ETH)</md-table-head>
-          <md-table-head class="align-right">SAI</md-table-head>
-        </md-table-row>
-      </md-table-header>
-
-      <md-table-body>
-        <md-table-row md-selection :md-item="{title: 1}">
-          <md-table-cell>1</md-table-cell>
-          <md-table-cell class="align-right">10</md-table-cell>
-          <md-table-cell class="align-right">1,000</md-table-cell>
-        </md-table-row>
-        <md-table-row md-selection :md-item="{title: 2}">
-          <md-table-cell>2</md-table-cell>
-          <md-table-cell class="align-right">1</md-table-cell>
-          <md-table-cell class="align-right">250</md-table-cell>
-        </md-table-row>
-      </md-table-body>
-    </md-table>
+    <TitleViz :data="titleData"></TitleViz>
 
   </section>
 </template>
@@ -70,6 +51,8 @@ import DAC from '../../build/contracts/DAC.json'
 import Project from '../../build/contracts/Project.json'
 import TitleToken from '../../build/contracts/TitleToken.json'
 import { DAC_ADDRESS } from '../constants'
+
+import TitleViz from '@/components/TitleViz'
 
 import ethJSABI from 'ethjs-abi';
 
@@ -139,10 +122,15 @@ const decodeLogs = function(C, instance, logs) {
   });
 };
 
-let dac, accounts, token;
+let dac, accounts, token, projects;
 
 export default {
+  
   name: 'TheDac',
+  
+  components: {
+    TitleViz
+  },
   
   data() {
     return {
@@ -151,6 +139,11 @@ export default {
       donation: 0,
       title: '',
       
+      titleData:{
+        "name": "donations",
+        "children": []
+      },
+      
       amount: 0, // The amount of SAI raised
       targetAmount: 0, // The amount of SAI we are trying to raise
       name: '',
@@ -158,6 +151,7 @@ export default {
     }
   },
   mounted() {
+    w3h.getWeb3();
     setTimeout(() => this.init(), 1000)
   },
   methods: {
@@ -173,15 +167,32 @@ export default {
         from: accounts[0],
         value: wei
       });
+      
+      setTimeout(() => this.update(), 1000);
     },
     
-    async refreshTitles() {
+    async transfer() {
+      const titleCount = (await token.titleCount.call()).toNumber();
+      const project = projects[Math.floor(Math.random()*projects.length)];
+      
+      console.log(project);
+      
+      const tx = await dac.transfer(project, Math.floor(Math.random() * titleCount), w3h.toEth(0.2), {
+        from: accounts[0]
+      });
+      
+      console.log(tx);
+    },
+    
+    async update() {
       const total = (await token.titleCount.call()).toNumber();
       const data = [];
-      
       for (let i = 0; i < total; i++) {
-        console.log(i);
-        data.push(await token.titleData.call(i));
+        const titleData = await token.titleData.call(i);
+        titleData.push(i)
+        console.log(titleData[1] !== accounts[0]);
+        if (titleData[1] !== accounts[0] || titleData[2] === false) continue;
+        data.push(titleData);
       }
       
       var filter = web3.eth.filter({
@@ -190,9 +201,44 @@ export default {
         toBlock: 'latest'
       });
       
-      filter.get(function(error, result) {
+      const pushChild = async (title, parent) => {
+        
+      };
+      
+      filter.get(async (error, result) => {
         const logs = decodeLogs(TitleToken, token, result);
+        
+        
+        for (let log in logs) {
+          if (log.event !== 'Transfer') continue;
+          const args = log.args;
+          args.a = args.a.toNumber();
+          args.b = args.b.toNumber();
+          args.title = args.title.toNumber();
+          
+          const parent = data.find(d => d[3] === args.b);
+          
+          console.log(parent);
+          
+          if (!parent) continue;
+        
+          const childTitle = await token.titleData.call(args.a);
+          
+          console.log(childTitle);
+          
+          parent.push([{
+            name: childTitle[0].toNumber(),
+            children: []
+          }]);
+        };
+        
         console.log(logs);
+        
+        this.titleData.children = data.map(d => ({
+          name: w3h.toEth(d[0].toNumber()),
+          children: d[4] ? d[4] : []
+        }));
+        
       });
     },
     
@@ -202,7 +248,7 @@ export default {
       
       accounts = await w3h.getAccounts()
       
-      const projects = await dac.getProjects.call()
+      projects = await dac.getProjects.call()
       
       const project = await w3h.getContract(
         Project,
@@ -216,7 +262,7 @@ export default {
         address
       )
       
-      this.refreshTitles();
+      this.update();
 
     }
   }

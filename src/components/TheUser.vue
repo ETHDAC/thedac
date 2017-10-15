@@ -160,8 +160,15 @@ export default {
     }
   },
   mounted() {
-    w3h.getWeb3();
-    setTimeout(() => this.init(), 1000);
+    w3h.getWeb3()
+    setTimeout(() => this.init(), 1000)
+
+    w3h.getAccounts().then((accounts) => {
+      this.account = accounts[0]
+      w3h.getBalance(this.account).then((balance) => {
+        this.balance = balance
+      })
+    })
   },
   methods: {
     onSelect(rows) {
@@ -235,16 +242,16 @@ export default {
 
     async init() {
       accounts = await w3h.getAccounts();
-      
-        
-        
+
+
+
       //for deploying
       window.deployDAC = () => {
         w3h.deployContract(DAC, accounts[0], 4000000);
       };
-      
+
       dac = await w3h.getContract(DAC, DAC_ADDRESS);
-      
+
       projects = await dac.getProjects.call()
 
       const project = await w3h.getContract(Project, projects[2])

@@ -26,7 +26,7 @@
       </md-table-header>
 
       <md-table-body>
-        <md-table-row v-for="(title, index) in titles">
+        <md-table-row v-for="(title, index) in titles" key={index}>
           <md-table-cell>{{ index }}</md-table-cell>
           <md-table-cell class="align-right">{{ title.balance }}</md-table-cell>
           <md-table-cell class="align-right">

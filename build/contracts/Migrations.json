@@ -79,6 +79,7 @@
       "address": "0xf96de148078a2c45f4b54f66abda490b61c232ff",
       "updated_at": 1508021434450
     },
+<<<<<<< HEAD
     "1508016621596": {
       "events": {},
       "links": {},
@@ -88,4 +89,15 @@
   },
   "schema_version": "0.0.5",
   "updated_at": 1508030318068
+=======
+    "1508032837490": {
+      "events": {},
+      "links": {},
+      "address": "0x35330d50514d727ada6ba336a75346d7c28b7aea",
+      "updated_at": 1508032912910
+    }
+  },
+  "schema_version": "0.0.5",
+  "updated_at": 1508032912910
+>>>>>>> add file transfers view
 }

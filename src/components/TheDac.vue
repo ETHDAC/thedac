@@ -63,6 +63,7 @@ export default {
     setTimeout(() => this.init(), 500)
   },
   methods: {
+    // SHOULD BE A UTIL
     createTitle(title) {
       const parsedTitle = {
         balance: window.web3.fromWei(title[0], 'ether').toNumber(),

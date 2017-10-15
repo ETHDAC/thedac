@@ -17,3 +17,7 @@
 .click-table tbody tr {
   cursor: pointer;
 }
+
+.md-table .md-table-cell .md-table-cell-container {
+  word-break: break-word;
+}

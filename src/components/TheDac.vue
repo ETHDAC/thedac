@@ -20,20 +20,19 @@
         <md-table-row>
           <md-table-head>Title</md-table-head>
           <md-table-head class="align-right">Donation (ETH)</md-table-head>
-          <md-table-head class="align-right">SAI</md-table-head>
+          <md-table-head class="align-right">Donor</md-table-head>
+          <md-table-head class="align-right">Active?</md-table-head>
         </md-table-row>
       </md-table-header>
 
       <md-table-body>
-        <md-table-row>
-          <md-table-cell>1</md-table-cell>
-          <md-table-cell class="align-right">10</md-table-cell>
-          <md-table-cell class="align-right">1,000</md-table-cell>
-        </md-table-row>
-        <md-table-row>
-          <md-table-cell>2</md-table-cell>
-          <md-table-cell class="align-right">1</md-table-cell>
-          <md-table-cell class="align-right">250</md-table-cell>
+        <md-table-row v-for="(title, index) in titles">
+          <md-table-cell>{{ index }}</md-table-cell>
+          <md-table-cell class="align-right">{{ title.balance }}</md-table-cell>
+          <md-table-cell class="align-right">
+            {{ title.donor }}
+          </md-table-cell>
+          <md-table-cell class="align-right">{{ title.active ? 'yes' : 'no' }}</md-table-cell>
         </md-table-row>
       </md-table-body>
     </md-table>
@@ -55,18 +54,26 @@ export default {
       balance: 0, // The amount of SAI raised
       goal: 0, // The amount of SAI we are trying to raise
       name: '',
-      title: 'The Dac'
+      title: 'The Dac',
+      totalTitles: 0,
+      titles: []
     }
   },
   mounted() {
     setTimeout(() => this.init(), 500)
   },
   methods: {
+    createTitle(title) {
+      const parsedTitle = {
+        balance: window.web3.fromWei(title[0], 'ether').toNumber(),
+        donor: title[1],
+        active: title[2]
+      }
+
+      return parsedTitle
+    },
     async init() {
-      const dac = await w3h.getContract(
-        DAC,
-        DAC_ADDRESS
-      )
+      const dac = await w3h.getContract(DAC, DAC_ADDRESS)
       // const accounts = await w3h.getAccounts()
 
       // const projects = await dac.getProjects.call()
@@ -93,14 +100,28 @@ export default {
 
       // Get Titles
 
-      const titles = []
-      const totalTitles = (await titleTokenContract.titleCount()).toNumber()
+      // const total = (await token.titleCount.call()).toNumber();
+      // const data = [];
+      //
+      // console.log(total);
+      //
+      // for (let i = 0; i < total; i++) {
+      //
+      //   console.log(i);
+      //   data.push(await token.titleData.call(i));
+      // }
+      // console.log(data);
 
-      for (let i = 0; i < totalTitles - 1; i++) {
+      this.totalTitles = (await titleTokenContract.titleCount()).toNumber()
+      const titles = []
+
+      for (let i = 0; i < this.totalTitles; i++) {
         titles[i] = await titleTokenContract.titleData(i)
       }
 
-      console.log(totalTitles, titles)
+      this.titles = titles.map((title) => {
+        return this.createTitle(title)
+      })
     }
   }
 }

@@ -69,7 +69,75 @@ import w3h from '../utils/web3helpers'
 import DAC from '../../build/contracts/DAC.json'
 import Project from '../../build/contracts/Project.json'
 import TitleToken from '../../build/contracts/TitleToken.json'
+import { DAC_ADDRESS } from '../constants'
 
+import ethJSABI from 'ethjs-abi';
+
+const decodeLogs = function(C, instance, logs) {
+  return logs.map(function(log) {
+      
+    var logABI = C.networks[Object.keys(C.networks)[0]].events[log.topics[0]];
+
+    if (logABI == null) {
+      return null;
+    }
+    // This function has been adapted from web3's SolidityEvent.decode() method,
+    // and built to work with ethjs-abi.
+
+    var copy = Object.assign({}, log);
+
+    function partialABI(fullABI, indexed) {
+      var inputs = fullABI.inputs.filter(function (i) {
+        return i.indexed === indexed;
+      });
+
+      var partial = {
+        inputs: inputs,
+        name: fullABI.name,
+        type: fullABI.type,
+        anonymous: fullABI.anonymous
+      };
+
+      return partial;
+    }
+
+    var argTopics = logABI.anonymous ? copy.topics : copy.topics.slice(1);
+    var indexedData = "0x" + argTopics.map(function (topics) { return topics.slice(2); }).join("");
+    var indexedParams = ethJSABI.decodeEvent(partialABI(logABI, true), indexedData);
+
+    var notIndexedData = copy.data;
+    var notIndexedParams = ethJSABI.decodeEvent(partialABI(logABI, false), notIndexedData);
+
+    copy.event = logABI.name;
+
+    copy.args = logABI.inputs.reduce(function (acc, current) {
+      var val = indexedParams[current.name];
+
+      if (val === undefined) {
+        val = notIndexedParams[current.name];
+      }
+
+      acc[current.name] = val;
+      return acc;
+    }, {});
+
+    Object.keys(copy.args).forEach(function(key) {
+      var val = copy.args[key];
+
+      // We have BN. Convert it to BigNumber
+      if (val.constructor.isBN) {
+        copy.args[key] = web3.toBigNumber("0x" + val.toString(16));
+      }
+    });
+
+    delete copy.data;
+    delete copy.topics;
+
+    return copy;
+  }).filter(function(log) {
+    return log != null;
+  });
+};
 
 let dac, accounts, token;
 
@@ -108,30 +176,33 @@ export default {
     },
     
     async refreshTitles() {
-      
       const total = (await token.titleCount.call()).toNumber();
       const data = [];
       
-      console.log(total);
-      
       for (let i = 0; i < total; i++) {
-      
         console.log(i);
         data.push(await token.titleData.call(i));
       }
-      console.log(data);
       
+      var filter = web3.eth.filter({
+        address: token.address,
+        fromBlock: 0,
+        toBlock: 'latest'
+      });
+      
+      filter.get(function(error, result) {
+        const logs = decodeLogs(TitleToken, token, result);
+        console.log(logs);
+      });
     },
     
     async init() {
     
-      dac = await w3h.getContract(DAC);
+      dac = await w3h.getContract(DAC, DAC_ADDRESS);
       
       accounts = await w3h.getAccounts()
       
       const projects = await dac.getProjects.call()
-      
-      console.log(projects);
       
       const project = await w3h.getContract(
         Project,
@@ -144,12 +215,6 @@ export default {
         TitleToken,
         address
       )
-      
-      
-      console.log(dac);
-      console.log(token);
-      console.log(project);
-      
       
       this.refreshTitles();
 

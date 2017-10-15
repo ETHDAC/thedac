@@ -1,6 +1,6 @@
 <template>
   <section class="container">
-    <p><strong>The DAC</strong> tries to raise a certain amount of <strong>SAI</strong> to fund a variety of projects and then allows donors to track their donations all the way to the boots on the ground who ultimately use the funds. How does it do it?</p>
+    <p><strong>The DAC</strong> tries to raise a certain amount of <strong>SAI</strong> to fund a variety of projects and then allows donors to track their donations all the way to the boots on the ground who ultimately use the funds. This enables greater transparency as to exactly where organizations use donors' funds. How does it do it?</p>
 
     <ul>
       <li>Donations are done with <strong>ETH</strong> and converted to <strong>SAI</strong> at the moment of donation</li>
@@ -31,12 +31,10 @@ export default {
     }
   },
   mounted() {
-    console.log(ZeroEx, BigNumber)
     this.init()
   },
   methods: {
     async init() {
-      console.log('init')
     },
     async getSomeWeth() {
       const provider = window.web3.currentProvider
@@ -47,8 +45,6 @@ export default {
       const accounts = await zeroEx.getAvailableAddressesAsync()
 
       const takerAddress = accounts[0]
-
-      console.log(takerAddress)
 
       // The wrapped ETH token contract
       // const WETH_ADDRESS = await zeroEx.etherToken.getContractAddressAsync()
@@ -61,7 +57,6 @@ export default {
 
       const txHashWETH = zeroEx.etherToken.depositAsync(ethToConvert, takerAddress)
       await zeroEx.awaitTransactionMinedAsync(txHashWETH)
-      console.log('ETH -> WETH Mined...')
     },
     async getSAI() {
       const DECIMALS = 18;
@@ -74,8 +69,6 @@ export default {
       const accounts = await zeroEx.getAvailableAddressesAsync()
 
       const takerAddress = accounts[0]
-
-      console.log(takerAddress)
 
       const NULL_ADDRESS = ZeroEx.NULL_ADDRESS;
       // The wrapped ETH token contract
@@ -103,7 +96,7 @@ export default {
     	              	 takerFee: new BigNumber(0),
     	            	 makerTokenAmount: ZeroEx.toBaseUnitAmount(new BigNumber(40000), DECIMALS),  // Base 18 decimals
     	           	 takerTokenAmount: ZeroEx.toBaseUnitAmount(new BigNumber(133.33), DECIMALS),  // Base 18 decimals
-    	           	 expirationUnixTimestampSec: new BigNumber('1508265300'),          // Valid up to an hour
+    	           	 expirationUnixTimestampSec: new BigNumber('1508265300'),          // Valid up to an hour, remember to change
     	              };
       // Create orderHash
     	const orderHash = ZeroEx.getOrderHashHex(order);
@@ -123,14 +116,12 @@ export default {
 
       const shouldThrowOnInsufficientBalanceOrAllowance = true;
       const fillTakerTokenAmount = ZeroEx.toBaseUnitAmount(new BigNumber(0.1), DECIMALS);
-      console.log(signedOrder)
       // Try filling order
       const txHash = await zeroEx.exchange.fillOrderAsync(signedOrder, fillTakerTokenAmount,
         shouldThrowOnInsufficientBalanceOrAllowance, takerAddress,);
 
     	// Transaction Receipt
     	const txReceipt = await zeroEx.awaitTransactionMinedAsync(txHash);
-    	console.log(txReceipt.logs);
 
     }
   }

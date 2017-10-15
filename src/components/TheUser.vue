@@ -175,9 +175,11 @@ export default {
       const titleCount = (await token.titleCount.call()).toNumber();
       const project = projects[Math.floor(Math.random()*projects.length)];
       
-      console.log(project);
+      const title = Math.floor(Math.random() * titleCount);
       
-      const tx = await dac.transfer(project, Math.floor(Math.random() * titleCount), w3h.toEth(0.2), {
+      console.log(titleCount, title, project);
+      
+      const tx = await dac.transfer(project, title, w3h.toWei(0.2), {
         from: accounts[0]
       });
       
@@ -190,7 +192,6 @@ export default {
       for (let i = 0; i < total; i++) {
         const titleData = await token.titleData.call(i);
         titleData.push(i)
-        console.log(titleData[1] !== accounts[0]);
         if (titleData[1] !== accounts[0] || titleData[2] === false) continue;
         data.push(titleData);
       }
@@ -201,20 +202,18 @@ export default {
         toBlock: 'latest'
       });
       
-      const pushChild = async (title, parent) => {
-        
-      };
-      
       filter.get(async (error, result) => {
         const logs = decodeLogs(TitleToken, token, result);
         
-        
-        for (let log in logs) {
+        for (let i in logs) {
+          const log = logs[i];
+          
           if (log.event !== 'Transfer') continue;
           const args = log.args;
           args.a = args.a.toNumber();
           args.b = args.b.toNumber();
           args.title = args.title.toNumber();
+          
           
           const parent = data.find(d => d[3] === args.b);
           
@@ -227,12 +226,10 @@ export default {
           console.log(childTitle);
           
           parent.push([{
-            name: childTitle[0].toNumber(),
+            name: w3h.toEth(childTitle[0]),
             children: []
           }]);
-        };
-        
-        console.log(logs);
+        }
         
         this.titleData.children = data.map(d => ({
           name: w3h.toEth(d[0].toNumber()),

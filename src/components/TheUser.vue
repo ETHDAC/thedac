@@ -28,8 +28,6 @@
 
         <md-button type="submit" class="md-raised md-primary" @click="donate">Donate</md-button>
         
-        <md-button type="submit" class="md-raised md-primary" @click="transfer">TEST TRANSFER</md-button>
-
         <p><strong>Note:</strong> After submit a receipt is generated that gives you the information you need to track transactions. The app stores this receipt.</p>
 
       </form>
@@ -171,20 +169,6 @@ export default {
       setTimeout(() => this.update(), 1000);
     },
     
-    async transfer() {
-      const titleCount = (await token.titleCount.call()).toNumber();
-      const project = projects[Math.floor(Math.random()*projects.length)];
-      
-      const title = Math.floor(Math.random() * titleCount);
-      
-      console.log(titleCount, title, project);
-      
-      const tx = await dac.transfer(project, title, w3h.toWei(0.2), {
-        from: accounts[0]
-      });
-      
-      console.log(tx);
-    },
     
     async update() {
       const total = (await token.titleCount.call()).toNumber();

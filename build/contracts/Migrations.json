@@ -64,10 +64,19 @@
     "1508032837490": {
       "events": {},
       "links": {},
+<<<<<<< HEAD
       "address": "0xf73e72ecf4df86d420790e1aa4b505ec3a2618c4",
       "updated_at": 1508045934461
     }
   },
   "schema_version": "0.0.5",
   "updated_at": 1508045934461
+=======
+      "address": "0x031997881addf75d20caacfb57cca8473e54a5d0",
+      "updated_at": 1508047158714
+    }
+  },
+  "schema_version": "0.0.5",
+  "updated_at": 1508047158714
+>>>>>>> contract fix
 }

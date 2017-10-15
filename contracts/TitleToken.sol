@@ -52,7 +52,7 @@ contract TitleToken is Ownable {
     require(msg.sender == titleOwner || msg.sender == owner);
 
     //calc title split
-    uint256 remainder = titleData[_title].balance;
+    uint256 remainder = titleData[_title].balance.sub(_amount);
     uint256 a = allocate(_amount, _to);
     uint256 b = allocate(remainder, titleOwner);
 

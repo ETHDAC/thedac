@@ -181,10 +181,19 @@
         }
       },
       "links": {},
+<<<<<<< HEAD
       "address": "0x2f9aa09a40bc565a87177f242fd429cf5aedd81a",
       "updated_at": 1508045934450
     }
   },
   "schema_version": "0.0.5",
   "updated_at": 1508045934450
+=======
+      "address": "0xf1acf53ecf672f2245376ecc5b9f2ea194229c04",
+      "updated_at": 1508047158672
+    }
+  },
+  "schema_version": "0.0.5",
+  "updated_at": 1508047158672
+>>>>>>> contract fix
 }

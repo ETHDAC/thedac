@@ -40,12 +40,18 @@
 
     <form @submit.prevent="() => {}" class="space">
       <md-input-container>
-        <label for="movie">Project</label>
-        <md-select name="movie" id="movie" v-model="movie">
-          <md-option v-for="(project, index) in projects" :key="index" :value="project">{{ project }}</md-option>
+        <label>Donation Amount</label>
+        <md-input v-model="donation" type="number"></md-input>
+        
+      </md-input-container>
+      <md-input-container>
+        <label>Project</label>
+        
+        <md-select v-model="selectedProject">
+          <md-option v-for="(project, index) in projects" :key="index" :value="project">{{ projectTitles[index] }}</md-option>
         </md-select>
       </md-input-container>
-      <md-button type="submit" class="md-raised md-primary">Transfer Title</md-button>
+      <md-button type="submit" class="md-raised md-primary" @click="transfer">Transfer Title</md-button>
     </form>
   </section>
 </template>
@@ -53,17 +59,21 @@
 <script>
 import w3h from '../utils/web3helpers'
 import DAC from '../../build/contracts/DAC.json'
-// import Project from '../../build/contracts/Project.json'
+import Project from '../../build/contracts/Project.json'
 import TitleToken from '../../build/contracts/TitleToken.json'
 import { DAC_ADDRESS } from '../constants'
 
 export default {
   data() {
     return {
+      donation: 0.1,
       totalTitles: 0,
       titles: [],
       selectedTotal: 0,
-      projects: []
+      projects: [],
+      projectTitles:[],
+      selectedProject:null,
+      selectedTitle:null
     }
   },
   mounted() {
@@ -73,35 +83,57 @@ export default {
     // })
   },
   methods: {
-    createTitle(title) {
+    createTitle(title, index) {
       const parsedTitle = {
         balance: window.web3.fromWei(title[0], 'ether').toNumber(),
         donor: title[1],
-        active: title[2]
+        active: title[2],
+        index
       }
 
       return parsedTitle
     },
     getTotal(titles) {
+    
+      this.selectedTitle = titles[0].index;
+      
       this.selectedTotal = titles.reduce((accumulator, currentValue) => {
         return accumulator + currentValue.balance
       }, 0)
     },
+    
+    
+    async transfer() {
+    
+      const dac = await w3h.getContract(DAC, DAC_ADDRESS)
+      const accounts = await w3h.getAccounts();
+      
+      const tx = await dac.transfer(this.selectedProject, this.selectedTitle, w3h.toWei(this.donation), {
+        from: accounts[0]
+      });
+      
+    },
+    
     async init() {
       const dac = await w3h.getContract(DAC, DAC_ADDRESS)
       // const accounts = await w3h.getAccounts()
 
       const projects = await dac.getProjects.call()
       this.projects = projects
-
-      // const project = await w3h.getContract(Project, projects[2])
+      
+      const projectTitles = [];
+      for (let i = 0; i < projects.length; i++) {
+        const project = await w3h.getContract(Project, projects[i]);
+        projectTitles.push(web3.toAscii(await project.name.call()));
+      }
+      this.projectTitles = projectTitles;
 
       const address = await dac.token.call()
       const titleTokenContract = await w3h.getContract(TitleToken, address)
 
       // console.log(accounts)
-      console.log('dac', dac)
-      console.log('titleTokenContract', titleTokenContract)
+      //console.log('dac', dac)
+      //console.log('titleTokenContract', titleTokenContract)
       // console.log(project)
 
       // Get Target Amount (how much we want)
@@ -133,9 +165,9 @@ export default {
         titles[i] = await titleTokenContract.titleData(i)
       }
 
-      this.titles = titles.map((title) => {
-        return this.createTitle(title)
-      })
+      this.titles = titles.map((title, i) => {
+        return this.createTitle(title, i)
+      }).filter((title) => title.active)
     }
   }
 }

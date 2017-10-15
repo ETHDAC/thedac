@@ -1,1 +1,1 @@
-export const DAC_ADDRESS = '0x9569a6ae8b7de2aaf309d812c1b7c34474578a17'
+export const DAC_ADDRESS = '0xb717eb386532ac5eb839697646c249c1125550ba'

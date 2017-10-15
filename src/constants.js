@@ -1,1 +1,2 @@
-export const DAC_ADDRESS = '0xfd7b4733e11010db590ea37d0bc1adf948b92a86'
+// Kovan DAC address
+export const DAC_ADDRESS = '0x78613F4a4690A0B4f6f0C13fC92d10A66C604E5f'

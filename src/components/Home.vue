@@ -13,6 +13,7 @@
     <router-link tag="md-button" to="/dac" class="md-raised md-primary">See the DAC</router-link>
     <router-link tag="md-button" to="/user" class="md-raised md-primary">Donate</router-link>
     <router-link tag="md-button" to="/title-holder" class="md-raised md-primary">Title Transfers</router-link>
+    <router-link tag="md-button" to="/zero-x" class="md-raised md-primary">DAC Wallet</router-link>
 
   </section>
 </template>

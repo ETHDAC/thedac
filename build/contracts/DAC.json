@@ -182,6 +182,7 @@
       },
       "links": {},
 <<<<<<< HEAD
+<<<<<<< HEAD
       "address": "0x2f9aa09a40bc565a87177f242fd429cf5aedd81a",
       "updated_at": 1508045934450
     }
@@ -196,4 +197,36 @@
   "schema_version": "0.0.5",
   "updated_at": 1508047158672
 >>>>>>> contract fix
+=======
+      "address": "0xa351705cf787255d04cbc511d226032b8d12e14f",
+      "updated_at": 1508046958276
+    },
+    "1508047014215": {
+      "events": {
+        "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "previousOwner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "newOwner",
+              "type": "address"
+            }
+          ],
+          "name": "OwnershipTransferred",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0x7ba02bb41c89ffb3f959fc6303973bf678a34860",
+      "updated_at": 1508047089271
+    }
+  },
+  "schema_version": "0.0.5",
+  "updated_at": 1508047089271
+>>>>>>> my stuff
 }

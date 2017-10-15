@@ -306,6 +306,7 @@
       },
       "links": {},
 <<<<<<< HEAD
+<<<<<<< HEAD
       "address": "0xaca17e8c0db3cd2716d2775e20e21f76f2dbf1e9",
       "updated_at": 1508045934454
     }
@@ -320,4 +321,85 @@
   "schema_version": "0.0.5",
   "updated_at": 1508047158706
 >>>>>>> contract fix
+=======
+      "address": "0x373cea2287a150a164a81061d6a87f6e4b9dfb4f",
+      "updated_at": 1508046958282
+    },
+    "1508047014215": {
+      "events": {
+        "0xdaf8717245aa2a4068ca038c602db246a55945ff23cabf37cc7ae8f6447550de": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "title",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "a",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "b",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "addressA",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "addressB",
+              "type": "address"
+            }
+          ],
+          "name": "Transfer",
+          "type": "event"
+        },
+        "0x40832f2f1b597d25b460cf8185f0af10616a71701311c7386d0f0b6e62d0b0c3": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "title",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "origin",
+              "type": "address"
+            }
+          ],
+          "name": "Origin",
+          "type": "event"
+        },
+        "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "previousOwner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "newOwner",
+              "type": "address"
+            }
+          ],
+          "name": "OwnershipTransferred",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0xe670a18298dcf7ff2a317d16a94eae3a3384f785",
+      "updated_at": 1508047089276
+    }
+  },
+  "schema_version": "0.0.5",
+  "updated_at": 1508047089276
+>>>>>>> my stuff
 }

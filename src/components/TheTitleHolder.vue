@@ -26,8 +26,8 @@
       </md-table-header>
 
       <md-table-body>
-        <md-table-row md-selection :md-item="title" v-for="(title, index) in titles" key={index}>
-          <md-table-cell>{{ index }}</md-table-cell>
+        <md-table-row md-selection :md-item="title" v-for="title in titles" key={title.index}>
+          <md-table-cell>{{ title.index }}</md-table-cell>
           <md-table-cell class="align-right">{{ title.balance }}</md-table-cell>
           <md-table-cell class="align-right">
             {{ title.donor }}
@@ -42,11 +42,11 @@
       <md-input-container>
         <label>Donation Amount</label>
         <md-input v-model="donation" type="number"></md-input>
-        
+
       </md-input-container>
       <md-input-container>
         <label>Project</label>
-        
+
         <md-select v-model="selectedProject">
           <md-option v-for="(project, index) in projects" :key="index" :value="project">{{ projectTitles[index] }}</md-option>
         </md-select>
@@ -94,33 +94,33 @@ export default {
       return parsedTitle
     },
     getTotal(titles) {
-    
+
       this.selectedTitle = titles[0].index;
-      
+
       this.selectedTotal = titles.reduce((accumulator, currentValue) => {
         return accumulator + currentValue.balance
       }, 0)
     },
-    
-    
+
+
     async transfer() {
-    
+
       const dac = await w3h.getContract(DAC, DAC_ADDRESS)
       const accounts = await w3h.getAccounts();
-      
+
       const tx = await dac.transfer(this.selectedProject, this.selectedTitle, w3h.toWei(this.donation), {
         from: accounts[0]
       });
-      
+
     },
-    
+
     async init() {
       const dac = await w3h.getContract(DAC, DAC_ADDRESS)
       // const accounts = await w3h.getAccounts()
 
       const projects = await dac.getProjects.call()
       this.projects = projects
-      
+
       const projectTitles = [];
       for (let i = 0; i < projects.length; i++) {
         const project = await w3h.getContract(Project, projects[i]);

@@ -65,6 +65,7 @@
       "events": {},
       "links": {},
 <<<<<<< HEAD
+<<<<<<< HEAD
       "address": "0xf73e72ecf4df86d420790e1aa4b505ec3a2618c4",
       "updated_at": 1508045934461
     }
@@ -79,4 +80,18 @@
   "schema_version": "0.0.5",
   "updated_at": 1508047158714
 >>>>>>> contract fix
+=======
+      "address": "0x2b475661cd060c09ae7b91cf6c2cdac838d01978",
+      "updated_at": 1508046958288
+    },
+    "1508047014215": {
+      "events": {},
+      "links": {},
+      "address": "0x9bc28e7796b56804e63a0f613ea3b2453f911a4d",
+      "updated_at": 1508047089275
+    }
+  },
+  "schema_version": "0.0.5",
+  "updated_at": 1508047089275
+>>>>>>> my stuff
 }

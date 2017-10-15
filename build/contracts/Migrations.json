@@ -66,8 +66,20 @@
       "links": {},
       "address": "0x2c9fb0692cfe516c657e0337306881f2c82f2c87",
       "updated_at": 1508047710818
+    },
+    "1508052356064": {
+      "events": {},
+      "links": {},
+      "address": "0x5ca52e50ce2e16a431ba28ecd56c90e7ef9bc740",
+      "updated_at": 1508052398995
+    },
+    "1508053128935": {
+      "events": {},
+      "links": {},
+      "address": "0x95ed4db570c9b3ac6546634d9900bc4be667a238",
+      "updated_at": 1508053170804
     }
   },
   "schema_version": "0.0.5",
-  "updated_at": 1508047710818
+  "updated_at": 1508053170804
 }
